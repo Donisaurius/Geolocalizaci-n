@@ -1,0 +1,109 @@
+Adonis Mendoza<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="tu localizacion">
+	<title>Tu localizacion</title>
+	<style>
+		*,*::before,*::after{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: Arial;
+		}
+
+		body{
+			background-color: #7fc;
+			display: flex;
+			flex-direction: column;
+		}
+
+		header{
+			align-items: center;
+			background-color: #0fc;
+			display: flex;
+			justify-content: center;
+			height: 15vh;
+			width: 100%;
+		}
+
+		.container{
+			align-items: center;
+			display: flex;
+			height: 85vh;
+			justify-content: center;
+			width: 100%;
+		}
+
+		#localizacion{
+			align-items: center;
+			background-color: #afc;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			height: 80%;
+			text-align: center;
+			width: 70%;
+		}
+
+		mark{
+			background-color: #0fc;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>¿Esta será tu localización?</h1>
+	</header>
+	<div class="container">
+		<div id="localizacion">
+					<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0ea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+		</div>
+	</div>
+	<script type="text/javascript">
+		const d = document,
+		  w = window,
+		  n = window.navigator;
+
+		const getLocation = (id) => {
+
+		  let $contenedor = d.getElementById(id);
+
+		  const succesBro = (posicion) => {
+		    let coords = posicion.coords;
+		    $contenedor.innerHTML = `
+		      <p>Tu posicion actual es la siguiente:</p>
+		      <ul>
+		        <li>Latitud: ${coords.latitude}</li>
+		        <li>Longitud: ${coords.longitude}</li>
+		        <li>Precisión: ${coords.accuracy}</li>
+		      </ul>
+		      <a href="https://www.google.com/maps/@${coords.latitude},${coords.longitude},20z" target="_blank" rel="noopener">Chequea el mapa</a>
+		    `
+		    console.log(posicion);
+		  }
+
+		  const errorBro = (err) => {
+		    $contenedor.innerHTML = `
+		    <p><mark>Error. Número: ${err.code} | Mensaje: ${err.message}</mark></p>
+		    `
+		    console.log(err)
+		  }
+
+		  const optionsBro = {
+		    enableHighAccuray: true,
+		    timeout: 5000,
+		    maximumAge: 0
+		  }
+
+		  n.geolocation.getCurrentPosition(succesBro,errorBro,optionsBro)
+
+		}
+		
+		w.addEventListener('DOMContentLoaded', () => {
+		  getLocation("localizacion");
+		})
+	</script>
+</body>
+</html>
